@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
 import ProgressView from "./ProgressView";
-import {secondsToDuration} from "../utils/duration";
+import DurationControl from "./DurationControl";
 
 
 // These functions are defined outside of the component to insure they do not have access to state
@@ -32,10 +32,9 @@ function nextTick(prevState) {
  * @returns
  *  function to update the session state.
  */
+
+
 function nextSession(focusDuration, breakDuration) {
-  /**
-   * State function to transition the current session type to the next session. e.g. On Break -> Focusing or Focusing -> On Break
-   */
   return (currentSession) => {
     if (currentSession.label === "Focusing") {
       return {
@@ -51,52 +50,12 @@ function nextSession(focusDuration, breakDuration) {
 }
 
 function Pomodoro() {
-  // Timer starts out paused
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  // The current session - null where there is no session running
   const [session, setSession] = useState(null);
-
-
   const [focusDuration, setFocusDuration] = useState(1500);
   const [breakDuration, setBreakDuration] = useState(300);
-  //HANDLERS FOR ADJUSTING DURATIONS...
-  const handleFocusIncrease = (click) => {
-    const newFocusDuration = focusDuration + 300;
-    if (newFocusDuration >= 3600){
-      setFocusDuration(3600);
-    } else {
-      setFocusDuration(newFocusDuration);
-    }
-  }
-  const handleFocusDecrease = (click) => {
-    const newFocusDuration = focusDuration - 300;
-    if (newFocusDuration < 300){
-      setFocusDuration(300);
-    } else {
-      setFocusDuration(newFocusDuration);
-    }
-  }
-  const handleBreakIncrease = (click) => {
-    const newBreakDuration = breakDuration + 60;
-    if (newBreakDuration > 900){
-      setBreakDuration(900);
-    } else {
-      setBreakDuration(newBreakDuration);
-    }
-  }
-  const handleBreakDecrease = (click) => {
-    const newBreakDuration = breakDuration - 60;
-    if (newBreakDuration < 60){
-      setBreakDuration(60);
-    } else {
-      setBreakDuration(newBreakDuration);
-    }
-  }
-  /**
-   * Custom hook that invokes the callback function every second
-   *
-   * NOTE: You will not need to make changes to the callback function
-   */
+  
+
   useInterval(() => {
       if (session.timeRemaining === 0) {
         new Audio("https://bigsoundbank.com/UPLOAD/mp3/1482.mp3").play();
@@ -107,16 +66,11 @@ function Pomodoro() {
     isTimerRunning ? 1000 : null
   );
 
-  /**
-   * Called whenever the play/pause button is clicked.
-   */
   function playPause() {
     setIsTimerRunning((prevState) => {
       const nextState = !prevState;
       if (nextState) {
         setSession((prevStateSession) => {
-          // If the timer is starting and the previous session is null,
-          // start a focusing session.
           if (prevStateSession === null) {
             return {
               label: "Focusing",
@@ -130,7 +84,6 @@ function Pomodoro() {
     });
   }
   
-  //HANDLER FOR STOP BUTTON
   const handleStop = (click) => {
     setIsTimerRunning(false);
     setSession(null);
@@ -140,70 +93,13 @@ function Pomodoro() {
 
   return (
     <div className="pomodoro">
-      <div className="row">
-        <div className="col">
-          <div className="input-group input-group-lg mb-2">
-            <span className="input-group-text" data-testid="duration-focus">
-              {/* TODO: Update this text to display the current focus session duration */}
-              Focus Duration: {secondsToDuration(focusDuration)}
-            </span>
-            <div className="input-group-append">
-              {/* TODO: Implement decreasing focus duration and disable during a focus or break session */}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="decrease-focus"
-                onClick={handleFocusDecrease}
-                disabled={session}
-              >
-                <span className="oi oi-minus" />
-              </button>
-              {/* TODO: Implement increasing focus duration  and disable during a focus or break session */}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="increase-focus"
-                onClick={handleFocusIncrease}
-                disabled={session}
-              >
-                <span className="oi oi-plus" />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="float-right">
-            <div className="input-group input-group-lg mb-2">
-              <span className="input-group-text" data-testid="duration-break">
-                {/* TODO: Update this text to display the current break session duration */}
-                Break Duration: {secondsToDuration(breakDuration)}
-              </span>
-              <div className="input-group-append">
-                {/* TODO: Implement decreasing break duration and disable during a focus or break session*/}
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="decrease-break"
-                  onClick={handleBreakDecrease}
-                  disabled={session}
-                >
-                  <span className="oi oi-minus" />
-                </button>
-                {/* TODO: Implement increasing break duration and disable during a focus or break session*/}
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="increase-break"
-                  onClick={handleBreakIncrease}
-                  disabled={session}
-                >
-                  <span className="oi oi-plus" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DurationControl 
+      session={session}
+      focusDuration={focusDuration}
+      breakDuration={breakDuration}
+      setBreakDuration={setBreakDuration}
+      setFocusDuration={setFocusDuration}
+      />
       <div className="row">
         <div className="col">
           <div
@@ -226,8 +122,6 @@ function Pomodoro() {
                 })}
               />
             </button>
-            {/* TODO: Implement stopping the current focus or break session. and disable the stop button when there is no active session */}
-            {/* TODO: Disable the stop button when there is no active session */}
             <button
               type="button"
               className="btn btn-secondary"
