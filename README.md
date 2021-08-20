@@ -5,6 +5,8 @@ This is a functioning Pomodoro timer with break timers and alerts. Using this me
 
 This was a fun project that I did for Thinkful. I remember reading through all the code that came with this project and feeling extremely overwhelmed. There were so many functions I didn't understand the purpose of, so I grabbed a notebook and wrote notes about each one until I felt confident enough to adapt it. Once I started, it was a fun challenge making the progress bar and timers.
 
+Project Link: https://pomodoro-timer-tawny.vercel.app/
+
 ## Goals
 
 - Installing packages via NPM.
