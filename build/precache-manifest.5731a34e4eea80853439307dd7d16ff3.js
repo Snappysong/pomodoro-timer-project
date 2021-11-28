@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "20663929bae423a4f3a70cee94c8740c",
+    "revision": "39d0a326041ac06e27c8021b2077953a",
     "url": "/index.html"
   },
   {
-    "revision": "5f333588b4bb38d8bdb7",
-    "url": "/static/css/main.cb9e985a.chunk.css"
+    "revision": "ab282a165d5f98fc634f",
+    "url": "/static/css/main.da556aba.chunk.css"
   },
   {
     "revision": "8f60e831c49dd590640b",
@@ -16,11 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.0acf020f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5f333588b4bb38d8bdb7",
+    "revision": "ab282a165d5f98fc634f",
     "url": "/static/js/main.1ae2960c.chunk.js"
   },
   {
     "revision": "facd31b36309f08ff9ad",
     "url": "/static/js/runtime-main.acde468f.js"
+  },
+  {
+    "revision": "79721d5452f831fa03de49fdd6815a22",
+    "url": "/static/media/bambooForest.79721d54.png"
   }
 ]);
